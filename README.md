@@ -92,7 +92,3 @@ Editor precedence is:
 7. `nvim`
 
 Use `vscode` as shorthand for `code -w`, and `neovim` as shorthand for `nvim`.
-
-## Naming
-
-GitHub search showed existing projects using `agent-mem`, so this app now uses the `agent-rules-tui` project name and `agent-rules` binary.
