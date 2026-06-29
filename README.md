@@ -26,6 +26,7 @@ agent-rules --root ~/work --root ~/src
 agent-rules --editor vim
 agent-rules --editor "code -w"
 agent-rules --editor fresh
+agent-rules --set-editor "code -w"
 ```
 
 Keys:
@@ -60,6 +61,7 @@ Useful config commands:
 ```sh
 agent-rules --init-config
 agent-rules --print-config
+agent-rules --set-editor "code -w"
 agent-rules --warm-cache
 ```
 
@@ -78,6 +80,7 @@ Example:
 Cache files are stored at `~/.cache/agent-rules-tui/discovery.json`, or `$XDG_CACHE_HOME/agent-rules-tui/discovery.json` when `XDG_CACHE_HOME` is set. The cache is stale-while-revalidate: cached results render first, then a background scan updates the UI and cache.
 
 Use `agent-rules --warm-cache` to refresh the discovery cache without opening the TUI.
+Use `agent-rules --set-editor "code -w"` to persist the default editor in the config file; `--editor` remains a one-run override.
 
 If the running `agent-rules` binary is not available from your shell `PATH`, the TUI prompts you to add it. Accepting creates or updates a symlink at `~/.local/bin/agent-rules` and appends a small PATH block to your shell rc file when `~/.local/bin` is not already in `PATH`. You can ignore once or remember the ignore choice in config with `ignore_path_prompt`.
 

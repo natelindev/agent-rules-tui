@@ -28,9 +28,25 @@ func (m *multiFlag) Set(value string) error {
 	return nil
 }
 
+type stringFlag struct {
+	value string
+	set   bool
+}
+
+func (s *stringFlag) String() string {
+	return s.value
+}
+
+func (s *stringFlag) Set(value string) error {
+	s.value = value
+	s.set = true
+	return nil
+}
+
 func main() {
 	var roots multiFlag
 	var editor string
+	var setEditor stringFlag
 	var configPath string
 	var initConfig bool
 	var printConfig bool
@@ -38,7 +54,8 @@ func main() {
 
 	defaultConfigPath := config.DefaultPath()
 	flag.Var(&roots, "root", "root directory to scan; may be passed more than once")
-	flag.StringVar(&editor, "editor", "", "editor command to use, for example nvim, vim, code -w, fresh")
+	flag.StringVar(&editor, "editor", "", "editor command to use for this run, for example nvim, vim, code -w, fresh")
+	flag.Var(&setEditor, "set-editor", "persist the default editor command to config and exit")
 	flag.StringVar(&configPath, "config", defaultConfigPath, "config file path")
 	flag.BoolVar(&initConfig, "init-config", false, "write a default config file and exit")
 	flag.BoolVar(&printConfig, "print-config", false, "print the effective config file path and exit")
@@ -55,6 +72,14 @@ func main() {
 			exitErr(err)
 		}
 		fmt.Printf("wrote %s\n", configPath)
+		return
+	}
+
+	if setEditor.set {
+		if err := config.SetEditor(configPath, setEditor.value); err != nil {
+			exitErr(err)
+		}
+		fmt.Printf("set editor to %q in %s\n", setEditor.value, configPath)
 		return
 	}
 

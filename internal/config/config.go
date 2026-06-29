@@ -231,24 +231,50 @@ func WriteDefault(path string, overwrite bool) error {
 	return os.WriteFile(path, append(data, '\n'), 0o644)
 }
 
+func SetEditor(path string, editor string) error {
+	editor = strings.TrimSpace(editor)
+	if editor == "" {
+		return errors.New("editor is empty")
+	}
+
+	cfg, err := loadForUpdate(path)
+	if err != nil {
+		return err
+	}
+	cfg.Editor = editor
+	return writeConfig(path, cfg)
+}
+
 func SetIgnorePathPrompt(path string, ignored bool) error {
+	cfg, err := loadForUpdate(path)
+	if err != nil {
+		return err
+	}
+	cfg.IgnorePathPrompt = ignored
+	return writeConfig(path, cfg)
+}
+
+func loadForUpdate(path string) (Config, error) {
 	if path == "" {
-		return errors.New("config path is empty")
+		return Config{}, errors.New("config path is empty")
 	}
 
 	cfg := Default()
 	data, err := os.ReadFile(path)
 	if err == nil {
 		if err := json.Unmarshal(data, &cfg); err != nil {
-			return fmt.Errorf("parse config %s: %w", path, err)
+			return Config{}, fmt.Errorf("parse config %s: %w", path, err)
 		}
 	} else if !errors.Is(err, os.ErrNotExist) {
-		return err
+		return Config{}, err
 	}
 
 	cfg.ConfigPath = ""
-	cfg.IgnorePathPrompt = ignored
-	data, err = json.MarshalIndent(cfg, "", "  ")
+	return cfg, nil
+}
+
+func writeConfig(path string, cfg Config) error {
+	data, err := json.MarshalIndent(cfg, "", "  ")
 	if err != nil {
 		return err
 	}

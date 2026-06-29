@@ -35,6 +35,29 @@ func TestLoadCreatesDefaultConfig(t *testing.T) {
 	}
 }
 
+func TestSetEditorCreatesConfig(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "config.json")
+
+	if err := SetEditor(path, "code -w"); err != nil {
+		t.Fatal(err)
+	}
+	cfg, err := Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.Editor != "code -w" {
+		t.Fatalf("Editor = %q, want %q", cfg.Editor, "code -w")
+	}
+}
+
+func TestSetEditorRejectsEmptyEditor(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "config.json")
+
+	if err := SetEditor(path, "  "); err == nil {
+		t.Fatal("SetEditor returned nil error for empty editor")
+	}
+}
+
 func TestSetIgnorePathPrompt(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "config.json")
 	if err := WriteDefault(path, false); err != nil {
