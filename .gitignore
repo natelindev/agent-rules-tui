@@ -1,0 +1,17 @@
+.DS_Store
+
+# Local build outputs
+/agent-rules
+/dist/
+/build/
+
+# Go test/build artifacts
+*.test
+*.out
+coverage.*
+
+# Local editor state
+.idea/
+.vscode/
+*.swp
+
