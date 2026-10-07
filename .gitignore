@@ -18,3 +18,7 @@ coverage.*
 # Screenshot tooling
 __pycache__/
 *.py[cod]
+
+# Cloudflare local state
+.wrangler/
+node_modules/

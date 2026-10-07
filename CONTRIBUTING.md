@@ -35,7 +35,7 @@ For TUI changes, also check navigation, project expansion, filtering, editor ret
 
 ## Documentation site
 
-`docs/` is a static site. Edit `index.html`, `styles.css`, and `app.js` directly; no frontend build tool is required. Use relative asset URLs so the site works under GitHub Pages' repository subpath.
+`docs/` is a static site. Edit `index.html`, `styles.css`, and `app.js` directly; no frontend build tool is required. Use relative asset URLs so the site works on Cloudflare Pages and under the GitHub Pages mirror's repository subpath.
 
 ```sh
 python3 -m http.server 8000 --directory docs
@@ -43,11 +43,20 @@ python3 -m http.server 8000 --directory docs
 
 Open <http://localhost:8000>. Check desktop and narrow mobile widths, keyboard focus, navigation, code copying, and the screenshot. Keep README examples and the site reference aligned with the actual CLI.
 
-The [documentation site](https://natelindev.github.io/agent-rules-tui/) is published by the included `docs.yml` workflow when `docs/` changes on `main`. The workflow can also be run manually.
+The primary [documentation site](https://agent-rules-tui.pages.dev/) is hosted on **Cloudflare Pages**, using the `agent-rules-tui` Direct Upload project. Cloudflare deployments are manual; the current project has no Git integration.
 
-For a fork, enable **Settings → Pages → Build and deployment → Source → GitHub Actions** and update the documentation links to your fork's Pages URL.
+To redeploy, authenticate Wrangler to the Cloudflare account that owns the project with Pages write permission, then upload the static directory:
 
-The deployment follows [GitHub's custom Pages workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+```sh
+npx --yes wrangler@4.148.0 login
+npx --yes wrangler@4.148.0 pages deploy docs --project-name agent-rules-tui --branch main
+```
+
+You can also upload a ZIP containing the contents of `docs/` through the project's Cloudflare dashboard. Put `index.html` at the ZIP root, alongside `styles.css`, `app.js`, and `assets/`.
+
+For automated uploads from GitHub Actions, configure a Cloudflare API token with **Account → Cloudflare Pages → Edit** for the owning account. See [Cloudflare's continuous deployment guide](https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/). Do not store credentials in the repository.
+
+The [GitHub Pages mirror](https://natelindev.github.io/agent-rules-tui/) remains available for existing links. The included `docs.yml` workflow refreshes that mirror when `docs/` changes on `main` and can also be run manually. For a fork, enable **Settings → Pages → Build and deployment → Source → GitHub Actions** and update its documentation links.
 
 ## Brand assets
 

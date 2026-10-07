@@ -14,7 +14,7 @@ Find the rules and memory files scattered across your projects, browse them in o
 [![CI](https://github.com/natelindev/agent-rules-tui/actions/workflows/ci.yml/badge.svg)](https://github.com/natelindev/agent-rules-tui/actions/workflows/ci.yml)
 [![Go 1.24+](https://img.shields.io/badge/Go-1.24%2B-00ADD8?logo=go&logoColor=white)](https://go.dev/dl/)
 
-[Documentation](https://natelindev.github.io/agent-rules-tui/) · [Report a bug](https://github.com/natelindev/agent-rules-tui/issues/new/choose) · [Contributing](CONTRIBUTING.md)
+[Documentation](https://agent-rules-tui.pages.dev/) · [Report a bug](https://github.com/natelindev/agent-rules-tui/issues/new/choose) · [Contributing](CONTRIBUTING.md)
 
 ![agent-rules TUI showing expanded sample projects, global instructions, and a selected Cursor rule](docs/assets/screenshot.png)
 
@@ -101,13 +101,13 @@ When a directly built `agent-rules` executable is missing from `PATH`, the app o
 
 ## Documentation
 
-The [documentation site](https://natelindev.github.io/agent-rules-tui/) includes the complete CLI and configuration reference, supported file patterns, discovery behavior, and troubleshooting. Preview the site locally:
+The [documentation site](https://agent-rules-tui.pages.dev/) includes the complete CLI and configuration reference, supported file patterns, discovery behavior, and troubleshooting. Preview the site locally:
 
 ```sh
 python3 -m http.server 8000 --directory docs
 ```
 
-Then open <http://localhost:8000>. The site is plain HTML, CSS, and JavaScript, with no build step. [Publishing instructions](CONTRIBUTING.md#documentation-site) cover the included GitHub Pages workflow.
+Then open <http://localhost:8000>. The site is plain HTML, CSS, and JavaScript, with no build step. [Publishing instructions](CONTRIBUTING.md#documentation-site) cover Cloudflare Pages deployment and the GitHub Pages mirror.
 
 ## Contributing
 
