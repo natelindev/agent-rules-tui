@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest an improvement to agent-rules.
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What workflow would this improve?
+      description: Describe the task you want to complete and what gets in the way today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested behavior
+      description: Include examples or alternatives if useful.
+    validations:
+      required: true

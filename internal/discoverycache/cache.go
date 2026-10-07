@@ -10,8 +10,8 @@ import (
 	"sort"
 	"time"
 
-	"agent-rules-tui/internal/config"
-	"agent-rules-tui/internal/scan"
+	"github.com/natelindev/agent-rules-tui/internal/config"
+	"github.com/natelindev/agent-rules-tui/internal/scan"
 )
 
 type Snapshot struct {

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"agent-rules-tui/internal/config"
+	"github.com/natelindev/agent-rules-tui/internal/config"
 )
 
 type AgentFile struct {

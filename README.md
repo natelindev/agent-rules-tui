@@ -1,97 +1,122 @@
-# agent-rules-tui
+<p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/brand/wordmark-dark.svg">
+    <img src="docs/assets/brand/wordmark.svg" alt="agent-rules" width="360" height="72">
+  </picture>
+</p>
 
-A small terminal UI for finding and opening agent instruction and memory files such as `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.cursorrules`, Cursor rule files, Cline/Roo/Windsurf rules, Codex instructions, and related config files.
+# agent-rules
 
-It groups matches by project, keeps known global memory paths in a `Global` group, and opens files in a configurable editor. Projects are collapsed by default; click a project or press `enter` on it to expand.
+**Your agent instructions, one terminal away.**
 
-Discovery results are cached, so the app can show the previous result set immediately and refresh it in the background.
+Find the rules and memory files scattered across your projects, browse them in one place, and open them in your favorite editor. A focused terminal UI built with Go and [Bubble Tea](https://github.com/charmbracelet/bubbletea).
 
-## Install
+[![CI](https://github.com/natelindev/agent-rules-tui/actions/workflows/ci.yml/badge.svg)](https://github.com/natelindev/agent-rules-tui/actions/workflows/ci.yml)
+[![Go 1.24+](https://img.shields.io/badge/Go-1.24%2B-00ADD8?logo=go&logoColor=white)](https://go.dev/dl/)
 
-```sh
-go install ./cmd/agent-rules
-```
+[Documentation](https://natelindev.github.io/agent-rules-tui/) · [Report a bug](https://github.com/natelindev/agent-rules-tui/issues/new/choose) · [Contributing](CONTRIBUTING.md)
 
-From this checkout you can also run it directly:
+![agent-rules TUI showing expanded sample projects, global instructions, and a selected Cursor rule](docs/assets/screenshot.png)
 
-```sh
-go run ./cmd/agent-rules
-```
+*The actual TUI running against sample projects. Projects start collapsed; expand only what you need.*
 
-## Usage
+- **One view across tools.** Discover `AGENTS.md`, `CLAUDE.md`, Cursor rules, Copilot instructions, and more.
+- **Project context.** Group files by project, with global instructions in their own group. Projects with the most recently changed instructions appear first.
+- **Fast repeat launches.** Show cached results immediately, then refresh in the background.
+- **Your editor.** Use `nvim` by default, or choose Vim, VS Code, or another editor command.
+- **Keyboard and mouse.** Navigate, filter paths, expand projects, and open files without leaving the terminal.
+- **Local workflow.** Discovery reads file metadata; files are edited through the editor you choose. No account or hosted service is required.
 
-```sh
-agent-rules
-agent-rules --root ~/work --root ~/src
-agent-rules --editor vim
-agent-rules --editor "code -w"
-agent-rules --editor fresh
-agent-rules --set-editor "code -w"
-```
+## Quick start
 
-Keys:
-
-- `a`: when prompted, add `agent-rules` to `~/.local/bin` and update your shell PATH if needed
-- `i`: dismiss the shell install prompt for this session
-- `I`: remember that you want to ignore the shell install prompt
-- `click` on a project or `enter`: expand/collapse the project
-- `click` on a file or `enter`: open the selected file
-- `j/k` or arrow keys: move
-- `/`: filter
-- `r`: rescan
-- `c`: open the config file
-- `q`: quit
-
-## Config
-
-The config is persisted automatically on first run. By default it lives at:
-
-```text
-~/.config/agent-rules-tui/config.json
-```
-
-If `XDG_CONFIG_HOME` is set, the app uses:
-
-```text
-$XDG_CONFIG_HOME/agent-rules-tui/config.json
-```
-
-Useful config commands:
+You need **Go 1.24 or newer** and a terminal on **macOS or Linux**.
 
 ```sh
-agent-rules --init-config
-agent-rules --print-config
-agent-rules --set-editor "code -w"
-agent-rules --warm-cache
+go install github.com/natelindev/agent-rules-tui/cmd/agent-rules@latest
+agent-rules --root ~/projects
 ```
 
-Example:
+Go installs the executable into `GOBIN`, or the `bin` directory of `GOPATH` when `GOBIN` is unset (usually `~/go/bin`). Add that directory to your shell's `PATH` if needed.
+
+To build from a checkout:
+
+```sh
+git clone https://github.com/natelindev/agent-rules-tui.git
+cd agent-rules-tui
+go build -o agent-rules ./cmd/agent-rules
+./agent-rules --root ~/projects
+```
+
+Without `--root`, the app scans your home directory, skipping common dependency, build, and system directories. Known global paths are checked separately, including when you specify project roots.
+
+## Everyday use
+
+```sh
+agent-rules --root ~/work --root ~/src    # Scan multiple workspaces
+agent-rules --editor "code -w"           # Use VS Code for this run
+agent-rules --set-editor "code -w"       # Save your preferred editor
+agent-rules --warm-cache                 # Refresh discovery without the TUI
+```
+
+| Key / action | What it does |
+| --- | --- |
+| `↑` / `↓` or `k` / `j` | Move the selection |
+| `Enter` / `o` or click | Expand a project or open a file |
+| `/` | Filter by project name or file path, ignoring case |
+| `Enter` / `Esc` while filtering | Finish typing; keep the filter |
+| `Backspace` outside filter mode | Clear the filter |
+| `PgUp` / `PgDn` or `b` / `f` | Move by a page |
+| `g` / `G` | Jump to the first / last row |
+| `r` | Rescan |
+| `c` | Open the config in your editor |
+| `q` / `Esc` / `Ctrl+C` outside filter mode | Quit |
+
+Filtering expands matching projects automatically. It searches names and paths, rather than file contents. GUI editors should use a wait flag (for example, `code -w`) so the TUI resumes after you close the file.
+
+## Configuration
+
+On first run, the app creates `~/.config/agent-rules-tui/config.json`, or `$XDG_CONFIG_HOME/agent-rules-tui/config.json` when set. Press `c` to edit it; restart the app to apply changes.
 
 ```json
 {
   "editor": "nvim",
-  "roots": ["~"],
-  "include": ["AGENTS.md", "CLAUDE.md", "GEMINI.md"],
-  "skip_dirs": ["node_modules", ".git", "Library"],
-  "global_paths": ["~/.claude/CLAUDE.md", "~/.codex/AGENTS.md"]
+  "roots": ["~/work", "~/src"],
+  "ignore_path_prompt": false
 }
 ```
 
-Cache files are stored at `~/.cache/agent-rules-tui/discovery.json`, or `$XDG_CACHE_HOME/agent-rules-tui/discovery.json` when `XDG_CACHE_HOME` is set. The cache is stale-while-revalidate: cached results render first, then a background scan updates the UI and cache.
+This minimal config keeps the built-in discovery patterns, excluded directories, and global paths. Non-empty `include`, `skip_dirs`, and `global_paths` arrays replace their defaults; they do not append to them. Empty arrays fall back to defaults.
 
-Use `agent-rules --warm-cache` to refresh the discovery cache without opening the TUI.
-Use `agent-rules --set-editor "code -w"` to persist the default editor in the config file; `--editor` remains a one-run override.
+```sh
+agent-rules --print-config          # Print the config path, not its contents
+agent-rules --init-config           # Create defaults; refuse to overwrite a file
+agent-rules --config ./rules.json   # Use another config file
+```
 
-If the running `agent-rules` binary is not available from your shell `PATH`, the TUI prompts you to add it. Accepting creates or updates a symlink at `~/.local/bin/agent-rules` and appends a small PATH block to your shell rc file when `~/.local/bin` is not already in `PATH`. You can ignore once or remember the ignore choice in config with `ignore_path_prompt`.
+Editor precedence: `--editor` → config `editor` → `AGENT_RULES_EDITOR` → `AGENT_MEM_EDITOR` → `VISUAL` → `EDITOR` → `nvim`. The generated default config sets `editor` to `nvim`; omit that field to use environment variables on subsequent runs. `vscode`, `vscode-insiders`, and `neovim` are supported aliases.
 
-Editor precedence is:
+Discovery metadata is cached at `~/.cache/agent-rules-tui/discovery.json`, honoring `XDG_CACHE_HOME`. Use `cache_path` to override it. File contents are not stored in the cache.
 
-1. `--editor`
-2. config file `editor`
-3. `AGENT_RULES_EDITOR`
-4. `AGENT_MEM_EDITOR`
-5. `VISUAL`
-6. `EDITOR`
-7. `nvim`
+When a directly built `agent-rules` executable is missing from `PATH`, the app offers to create a symlink in `~/.local/bin` and add that directory to your shell rc file if needed. Press `a` to accept, `i` to skip once, or `I` to remember the choice. Keep the original executable in place if you use the symlink.
 
-Use `vscode` as shorthand for `code -w`, and `neovim` as shorthand for `nvim`.
+## Documentation
+
+The [documentation site](https://natelindev.github.io/agent-rules-tui/) includes the complete CLI and configuration reference, supported file patterns, discovery behavior, and troubleshooting. Preview the site locally:
+
+```sh
+python3 -m http.server 8000 --directory docs
+```
+
+Then open <http://localhost:8000>. The site is plain HTML, CSS, and JavaScript, with no build step. [Publishing instructions](CONTRIBUTING.md#documentation-site) cover the included GitHub Pages workflow.
+
+## Contributing
+
+Bug reports and focused improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for development, verification, and screenshot instructions.
+
+```sh
+go test ./...
+go vet ./...
+go build ./cmd/agent-rules
+```
+
+Built with [Bubble Tea](https://github.com/charmbracelet/bubbletea) and [Lip Gloss](https://github.com/charmbracelet/lipgloss).

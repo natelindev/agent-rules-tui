@@ -1,4 +1,4 @@
-module agent-rules-tui
+module github.com/natelindev/agent-rules-tui
 
 go 1.24.0
 

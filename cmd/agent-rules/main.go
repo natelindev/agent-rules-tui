@@ -10,11 +10,11 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"agent-rules-tui/internal/config"
-	"agent-rules-tui/internal/discoverycache"
-	"agent-rules-tui/internal/install"
-	"agent-rules-tui/internal/scan"
-	"agent-rules-tui/internal/tui"
+	"github.com/natelindev/agent-rules-tui/internal/config"
+	"github.com/natelindev/agent-rules-tui/internal/discoverycache"
+	"github.com/natelindev/agent-rules-tui/internal/install"
+	"github.com/natelindev/agent-rules-tui/internal/scan"
+	"github.com/natelindev/agent-rules-tui/internal/tui"
 )
 
 type multiFlag []string

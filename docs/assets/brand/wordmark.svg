@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="72" viewBox="0 0 360 72" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">agent-rules</title>
+  <desc id="desc">The geometric rule-line R mark followed by the name agent-rules.</desc>
+  <g transform="translate(4 2)">
+  <path class="ink" d="M8 8H38L56 26V34L44 46L56 56H40L28 44H8V32H30L42 26L36 20H8V8Z" fill="#202B26"/>
+  <path class="accent" d="M8 50H26V60H8V50Z" fill="#78916D"/>
+  </g>
+  <text x="86" y="48" fill="#202B26" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="39" font-weight="650" letter-spacing="-1.7">agent-rules</text>
+</svg>

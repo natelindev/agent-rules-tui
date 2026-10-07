@@ -15,3 +15,6 @@ coverage.*
 .vscode/
 *.swp
 
+# Screenshot tooling
+__pycache__/
+*.py[cod]

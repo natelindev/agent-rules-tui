@@ -6,8 +6,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"agent-rules-tui/internal/config"
-	"agent-rules-tui/internal/scan"
+	"github.com/natelindev/agent-rules-tui/internal/config"
+	"github.com/natelindev/agent-rules-tui/internal/scan"
 )
 
 func TestProjectsAreCollapsedByDefaultAndToggle(t *testing.T) {

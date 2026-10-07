@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"agent-rules-tui/internal/config"
+	"github.com/natelindev/agent-rules-tui/internal/config"
 )
 
 func TestDiscoverGroupsProjectsAndSkipsDependencyDirs(t *testing.T) {

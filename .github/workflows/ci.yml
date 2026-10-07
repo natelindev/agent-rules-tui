@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Go / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Check formatting
+        run: test -z "$(gofmt -l cmd internal)"
+      - name: Test with race detector
+        run: go test -race ./...
+      - name: Vet
+        run: go vet ./...
+      - name: Build
+        run: go build ./cmd/agent-rules
+      - name: Verify installation and module path
+        run: |
+          test "$(go list -m)" = github.com/natelindev/agent-rules-tui
+          GOBIN="$RUNNER_TEMP/bin" go install ./cmd/agent-rules
+          "$RUNNER_TEMP/bin/agent-rules" --help
+      - name: Smoke test discovery cache
+        env:
+          XDG_CONFIG_HOME: ${{ runner.temp }}/agent-rules-config
+          XDG_CACHE_HOME: ${{ runner.temp }}/agent-rules-cache
+        run: |
+          ./agent-rules --root . --warm-cache
+          test -s "$XDG_CACHE_HOME/agent-rules-tui/discovery.json"

@@ -12,10 +12,10 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"agent-rules-tui/internal/config"
-	"agent-rules-tui/internal/discoverycache"
-	"agent-rules-tui/internal/install"
-	"agent-rules-tui/internal/scan"
+	"github.com/natelindev/agent-rules-tui/internal/config"
+	"github.com/natelindev/agent-rules-tui/internal/discoverycache"
+	"github.com/natelindev/agent-rules-tui/internal/install"
+	"github.com/natelindev/agent-rules-tui/internal/scan"
 )
 
 const baseListTop = 3

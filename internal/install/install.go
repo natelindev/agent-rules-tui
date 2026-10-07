@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"agent-rules-tui/internal/config"
+	"github.com/natelindev/agent-rules-tui/internal/config"
 )
 
 const commandName = "agent-rules"

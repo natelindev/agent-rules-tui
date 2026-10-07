@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-labelledby="title desc">
+  <title id="title">agent-rules logo</title>
+  <desc id="desc">A geometric R made of stacked rule lines, with a command chevron cut into its center.</desc>
+  <path class="ink" d="M8 8H38L56 26V34L44 46L56 56H40L28 44H8V32H30L42 26L36 20H8V8Z" fill="#202B26"/>
+  <path class="accent" d="M8 50H26V60H8V50Z" fill="#78916D"/>
+</svg>
