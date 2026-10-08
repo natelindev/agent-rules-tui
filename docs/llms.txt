@@ -1,0 +1,51 @@
+# agent-rules (agent-rules-tui)
+
+> Discover, browse, and edit AI coding agent instruction files from your terminal.
+
+## Overview
+
+agent-rules is a focused terminal UI built with Go and Bubble Tea to manage rule, system prompt, and agent memory files scattered across projects.
+
+- **Website**: https://agent-rules-tui.pages.dev/
+- **Repository**: https://github.com/natelindev/agent-rules-tui
+- **License**: MIT
+- **Requirements**: Go 1.24+
+
+## Supported Agent Instruction Files
+
+- **Cursor**: `.cursorrules`, `.cursor/rules/*.mdc`
+- **Claude Code**: `CLAUDE.md`, `.claude/rules/*.md`
+- **GitHub Copilot**: `.github/copilot-instructions.md`
+- **Windsurf**: `.windsurfrules`
+- **Google Antigravity**: `AGENTS.md`, `.gemini/rules/*`
+- **OpenCode & Custom**: `SYSTEM_PROMPT.md`, `PROMPT.md`, `INSTRUCTIONS.md`, `.rules`
+
+## Installation
+
+```bash
+# Via Go
+go install github.com/natelindev/agent-rules-tui/cmd/agent-rules@latest
+
+# From source
+git clone https://github.com/natelindev/agent-rules-tui.git
+cd agent-rules-tui
+go build -o ./bin/agent-rules ./cmd/agent-rules
+```
+
+## Navigation & Keybindings
+
+- **Up / Down, j / k**: Navigate files and projects.
+- **Enter / Space**: Open/expand project or edit selected rule file in configured editor.
+- **/**: Filter rule files by name or content.
+- **Tab**: Cycle focus between tree and preview panel.
+- **e**: Edit rule file directly in `$EDITOR`.
+- **r**: Rescan projects and refresh rule file list.
+- **q / Ctrl+C**: Quit application.
+
+## CLI Flags
+
+- `--path / -p <dir>`: Root directory to scan for projects and agent rules.
+- `--editor / -e <cmd>`: Override default text editor (defaults to `$EDITOR` or `nano`/`vim`).
+- `--global / -g`: Include user home global agent configuration files.
+- `--version`: Print application version.
+- `--help`: Display usage and flag reference.
